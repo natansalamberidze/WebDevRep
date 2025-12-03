@@ -1,0 +1,1 @@
+This project is for the tutorial of backend side using Express.js and node.js frameworks for building APIs for user authentication, including password hashing, as well as full CRUD (CREATE, READ, UPDATE, DELETE) operations to manage data.

@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "a tutorial for backend",
+  "homepage": "https://github.com/natansalamberidze/WebDevRep#readme",
+  "bugs": {
+    "url": "https://github.com/natansalamberidze/WebDevRep/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natansalamberidze/WebDevRep.git"
+  },
+  "license": "ISC",
+  "author": "Nathan",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.0",
+    "nodemon": "^3.1.11"
+  }
+}
