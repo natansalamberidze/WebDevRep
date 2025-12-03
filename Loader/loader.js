@@ -1,19 +1,19 @@
 // Waiting for the page to load completely
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const el = document.querySelector(".number");
-    
+
     if (!el) {
         console.warn("Element not found, cancel animation");
         return;
     }
-    
+
     animateCounter(el);
 });
 
 function animateCounter(element) {
     const targetValue = Number(element.dataset.value) || 0;
     let counter = 0;
-    
+
     const interval = setInterval(() => {
         if (counter < targetValue) {
             counter++;
@@ -24,12 +24,12 @@ function animateCounter(element) {
     }, 80);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const el = document.querySelector(".number");
     const doneElement = document.querySelector(".progress-done");
-    
+
     if (!el || !doneElement) return;
-    
+
     const elValue = Number(el.getAttribute("data-value"));
     let counter = 0;
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (counter < elValue) {
             counter++;
             el.innerHTML = `${counter}%`;
-            
+
             // Change color when approaching 100%
             if (counter > 90) {
                 el.style.color = '#4CAF50';
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showDoneMessage() {
         doneElement.classList.add('show');
-        
+
         // Automatic hiding after 3 seconds
         setTimeout(() => {
             doneElement.classList.remove('show');
