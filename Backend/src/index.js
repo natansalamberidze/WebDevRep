@@ -26,8 +26,8 @@ async function startserver() {
       server.close(async () => {
         console.log("✅ HTTP server closed");
 
-      await mongoose.connection.close();
-      console.log("✅ MongoDB connection closed");
+        await mongoose.connection.close();
+        console.log("✅ MongoDB connection closed");
 
         process.exit(0);
       });

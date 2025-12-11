@@ -1,7 +1,7 @@
-import mongoose, { Shema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import validator from "validator";
 
-const userSchema = new Shema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
