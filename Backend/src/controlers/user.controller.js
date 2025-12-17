@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
     if (!username || !email || !password) {
       return res.status(400).json({message: "All fields are required"});
     }
-    // check if the user exists already
+    // check if the user already exists
 
     const existing = await User.findOne({email: email.toLowerCase()});
     if (existing) {
