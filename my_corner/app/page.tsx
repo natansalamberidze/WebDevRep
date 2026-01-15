@@ -1,7 +1,11 @@
+import Container from "@/components/Container";
+
 export default function Home() {
   return (
-    <div>
-      Home page
-    </div>
+    <Container>
+      <h1 className="text-3xl font-bold">
+        Home page
+      </h1>
+    </Container>
   );
 }
