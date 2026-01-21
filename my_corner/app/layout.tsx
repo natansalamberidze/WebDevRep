@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Mr Natan Shalamberidze — Portfolio",
+  title: "Mr Nathan Shalamberidze — Portfolio",
   description: "Frontend Developer Portfolio",
 };
 
