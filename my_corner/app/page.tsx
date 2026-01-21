@@ -9,7 +9,7 @@ export default function Home() {
       {/* HERO */}
       <section className="py-20">
         <h1 className="text-4xl font-bold mb-4">
-          Hello, I'm Natan Shalamberidze 👋
+          Hello, I'm Nathan Shalamberidze 👋
         </h1>
 
         <p className="text-gray-400 max-w-xl">
