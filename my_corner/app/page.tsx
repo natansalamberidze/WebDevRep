@@ -2,6 +2,13 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nathan Shalamberidze — Frontend Developer",
+  description:
+    "Frontend developer specializing in modern React, Next.js, and scalable web interfaces.",
+};
 
 export default function Home() {
   return (
@@ -28,7 +35,7 @@ export default function Home() {
             href="/contact"
             className="px-6 py-3 border border-gray-700 rounded-lg"
           >
-            Contacts
+            Contact
           </Link>
         </div>
       </section>
