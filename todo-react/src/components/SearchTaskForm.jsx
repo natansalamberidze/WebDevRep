@@ -1,8 +1,12 @@
 import Field from "./Field.jsx"
 
-const SearchTaskForm = (props) => {
+// Component:
 
-  const { onSearchInput } = props;
+  const SearchTaskForm = (props) => {
+
+  const { onSearchInput } = props // Props destructuring
+
+  // Render:
 
   return (
     <form className="todo__form"

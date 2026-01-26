@@ -1,10 +1,15 @@
+// Component:
+
 const Button = (props) => {
 
   const {
     className = '',
     type = 'button',
     children,
-  } = props
+  } = props // Props destructuring
+
+
+  // Render:
 
   return (
     <button className={`${className}`} type={type}>

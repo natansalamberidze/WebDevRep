@@ -1,3 +1,4 @@
+// Component:
 const TodoItem = (props) => {
 
   const {
@@ -7,8 +8,9 @@ const TodoItem = (props) => {
     isDone,
     onDeleteTaskButtonClick,
     onTaskCompleteChange,
-  } = props
+  } = props // Props destructuring
 
+  // Render:
   return (
     <li className={`todo-item ${className}`}>
           <input

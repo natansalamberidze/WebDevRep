@@ -1,12 +1,16 @@
-const Field = (props) => {
+// Component:
 
+const Field = (props) => {
   const {
     className = '',
     id,
     label,
     type = 'text',
+    value,
     onInput,
-  } = props
+  } = props // Props destructuring
+
+// Render:
 
   return (
     <div className={`field ${className}`}>
@@ -22,6 +26,7 @@ const Field = (props) => {
             placeholder=" "
             autoComplete="off"
             type={type}
+            value={value}
             onInput={onInput}
           />
     </div>

@@ -1,17 +1,22 @@
 import TodoItem from './TodoItem.jsx'
 
+// Component:
+
 const TodoList = (props) => {
   const { 
     tasks = [],
     onDeleteTaskButtonClick,
     onTaskCompleteChange,
-  } = props;
+  } = props // Props destructuring
 
+  // Check for tasks:
   const hasTasks = true;
 
   if (!hasTasks) {
     return <div className="todo__empty-message"></div>;
   }
+
+  // Render:
 
   return (
     <ul className="todo__list">

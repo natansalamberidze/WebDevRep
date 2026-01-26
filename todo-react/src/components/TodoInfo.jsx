@@ -1,15 +1,18 @@
+// Component:
+
 const TodoInfo = (props) => {
 
   const {
     total,
     done,
     onDeleteAllButtonClick,
-  } = props
+  } = props // Props destructuring
 
   const hasTasks = total > 0
 
 
-
+  // Render:
+  
   return (
     <div className="todo__info">
       <div className="todo__total-tasks">
