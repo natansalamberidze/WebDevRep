@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import AddTaskForm from './AddTaskForm.jsx'
 import SearchTaskForm from './SearchTaskForm.jsx'
 import TodoInfo from './TodoInfo.jsx'
@@ -8,10 +9,23 @@ import TodoList from './TodoList.jsx'
 // States:
 
 const Todo = () => {
-  const [tasks, setTasks] = useState([
-    { id: 'task-1', title: 'Buy a car', isDone: false },
-    { id: 'task-2', title: 'Buy a house', isDone: true },
-  ]) // Initial tasks state
+  // const [tasks, setTasks] = useState([
+  //   { id: 'task-1', title: 'Buy a car', isDone: false },
+  //   { id: 'task-2', title: 'Buy a house', isDone: true },
+  // ]) // Initial tasks state
+
+    const [tasks, setTasks] = useState(() => {
+      const savedTasks = localStorage.getItem('tasks') // Load tasks from local storage
+
+      if (savedTasks) {
+        return JSON.parse(savedTasks) // Parse and set tasks
+      }
+
+      return [
+        { id: 'task-1', title: 'Buy a car', isDone: false },
+        { id: 'task-2', title: 'Buy a house', isDone: true },
+      ]
+    })
 
   const [newTaskTitle, setNewTaskTitle] = useState('') // New task title state
 
@@ -59,6 +73,27 @@ const Todo = () => {
     }
   }
 
+  // Effects/ Hooks:
+
+  //   useEffect(() => {
+  //   console.log('The Todo component has been assembled, loading data from the storage into the tasks')
+  //   const savedTasks = localStorage.getItem('tasks') // Load tasks from local storage
+
+  //   if (savedTasks) {
+  //     setTasks(JSON.parse(savedTasks)) // Parse and set tasks
+  //   }
+  //   return () => {
+      
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    // console.log('Save data in the storage couse tasks were changed!', tasks)
+    localStorage.setItem('tasks', JSON.stringify(tasks)) // Save tasks to local storage
+    return () => {
+      
+    };
+  }, [tasks]);
   // Render:
 
   return (
