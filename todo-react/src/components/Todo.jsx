@@ -29,6 +29,7 @@ const Todo = () => {
 
   const [newTaskTitle, setNewTaskTitle] = useState('') // New task title state
 
+  const [searchQuery, setSearchQuery] = useState('') // Search query state
 
 // Handlers:
 
@@ -57,10 +58,6 @@ const Todo = () => {
     )
   }
 
-  const filterTasks = (query) => {
-    console.log(`Search: ${query}`)
-  }
-
   const addTask = () => {
     if (newTaskTitle.trim().length > 0) {
       const newTask = {
@@ -70,6 +67,7 @@ const Todo = () => {
       }
       setTasks([...tasks, newTask])
       setNewTaskTitle('')
+      setSearchQuery('')
     }
   }
 
@@ -96,6 +94,11 @@ const Todo = () => {
   }, [tasks]);
   // Render:
 
+  const clearSearchQuery = searchQuery.trim().toLowerCase()
+  const filteredTasks = clearSearchQuery.length > 0
+    ? tasks.filter(({ title }) => title.toLowerCase().includes(clearSearchQuery)) // Filter tasks by search query with ternary operator
+    : null
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
@@ -105,7 +108,8 @@ const Todo = () => {
         setNewTaskTitle = {setNewTaskTitle}
       />
       <SearchTaskForm
-        onSearchInput = {filterTasks}
+        searchQuery = {searchQuery}
+        setSearchQuery = {setSearchQuery}
       />
       <TodoInfo 
         total = {tasks.length}
@@ -114,6 +118,7 @@ const Todo = () => {
       />
       <TodoList 
         tasks = {tasks}
+        filteredTasks = {filteredTasks}
         onDeleteTaskButtonClick = {deleteTask}
         onTaskCompleteChange = {toggleTaskComplete}
       />
