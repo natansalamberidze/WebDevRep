@@ -6,13 +6,18 @@ const Button = (props) => {
     className = '',
     type = 'button',
     children,
+    onClick,
   } = props // Props destructuring
 
 
   // Render:
 
   return (
-    <button className={`${className}`} type={type}>
+    <button 
+      className={`${className}`} 
+      type={type}
+      onClick={onClick}
+      >
       {children}
     </button>
   )
