@@ -1,4 +1,5 @@
 import TodoItem from './TodoItem.jsx'
+import { memo } from 'react'
 
 // Component:
 
@@ -42,4 +43,4 @@ const TodoList = (props) => {
   )
 }
 
-export default TodoList
+export default memo(TodoList)

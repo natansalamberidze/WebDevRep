@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef  } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import AddTaskForm from './AddTaskForm.jsx'
 import SearchTaskForm from './SearchTaskForm.jsx'
 import TodoInfo from './TodoInfo.jsx'
@@ -37,23 +37,23 @@ const Todo = () => {
 
   const firstIncompleteTaskId = tasks.find(({isDone}) => !isDone)?.id // Find the first incomplete task
 
-// Handlers:
+// Handlers / useCallbacks(memo for functions):
 
-  const deleteAllTasks = () => {
+  const deleteAllTasks = useCallback(() => {
     const isConfirmed = confirm('Are you sure you want to delete all tasks?')
 
     if (isConfirmed) {
       setTasks([])
     }
-  }
+  }, [])
 
-  const deleteTask = (taskId) => {
+  const deleteTask = useCallback((taskId) => {
     setTasks(
       tasks.filter((task) => task.id !== taskId)
     )
-  }
+  }, [tasks])
 
-  const toggleTaskComplete = (taskId, isDone) => {
+  const toggleTaskComplete = useCallback((taskId, isDone) => {
     setTasks(
       tasks.map((task) => {
         if (task.id === taskId) {
@@ -62,25 +62,25 @@ const Todo = () => {
         return task
       })
     )
-  }
+  }, [tasks])
 
-  const addTask = () => {
+  const addTask = useCallback(() => {
     if (newTaskTitle.trim().length > 0) {
       const newTask = {
         id: crypto?.randomUUID() ?? Date.now().toString(),  
         title: newTaskTitle,
         isDone: false,
       }
-      setTasks([...tasks, newTask]) // Add new task to tasks array
+      setTasks((prevTask) => [...prevTask, newTask] ) // Add new task to tasks array
       setNewTaskTitle('') // Clear new task title input
       setSearchQuery('') // Clear search query after adding a task
       newTaskInputRef.current.focus() // Focus the new task input field after adding a task
     }
-  }
+  }, [newTaskTitle])
 
 
 
-  // Effects/ Hooks:
+  // Effects / Hooks / useMemo (memo for values) 
 
   //   useEffect(() => {
   //   console.log('The Todo component has been assembled, loading data from the storage into the tasks')
@@ -90,7 +90,7 @@ const Todo = () => {
   //     setTasks(JSON.parse(savedTasks)) // Parse and set tasks
   //   }
   //   return () => {
-      
+
   //   };
   // }, []);
 
@@ -109,14 +109,21 @@ const Todo = () => {
     };
   }, []);
 
+  // useMemo (memo for values)
+
+  const filteredTasks = useMemo(() => {
+  const clearSearchQuery = searchQuery.trim().toLowerCase()
+    return clearSearchQuery.length > 0
+      ? tasks.filter(({ title }) => title.toLowerCase().includes(clearSearchQuery)) // Filter tasks by search query with ternary operator
+      : null
+  }, [searchQuery, tasks])
+
+
+  const doneTasks = useMemo(() => {
+    return tasks.filter(({ isDone }) => isDone).length
+  }, [tasks]) 
 
   // Render:
-
-  const clearSearchQuery = searchQuery.trim().toLowerCase()
-  const filteredTasks = clearSearchQuery.length > 0
-    ? tasks.filter(({ title }) => title.toLowerCase().includes(clearSearchQuery)) // Filter tasks by search query with ternary operator
-    : null
-
 
   return (
     <div className="todo">
@@ -133,7 +140,7 @@ const Todo = () => {
       />
       <TodoInfo
         total={tasks.length}
-        done={tasks.filter(({ isDone }) => isDone).length}
+        done={doneTasks}
         onDeleteAllButtonClick={deleteAllTasks}
       />
       <Button onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({ behavior: 'smooth', })}
