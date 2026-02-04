@@ -1,15 +1,17 @@
 import Field from './Field.jsx';
 import Button from './Button.jsx';
+import { useContext } from 'react';
+import { TasksContext } from '../context/TasksContext.jsx';
 
 // Component:
 
-const AddTaskForm = (props) => {
+const AddTaskForm = () => {
   const {
     addTask,
     newTaskTitle,
     setNewTaskTitle,
     newTaskInputRef, 
-  } = props // Props destructuring
+  } = useContext(TasksContext) // Props destructuring
 
 
   // Handlers:
