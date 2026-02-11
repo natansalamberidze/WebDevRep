@@ -1,18 +1,9 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import useTasksLocalStorage from './useTasksLocalStorage';
+import tasksAPI from '../api/tasksAPI/'
 
 const useTasks = () => {
 
-  const {
-    savedTasks,
-    saveTasks
-  } = useTasksLocalStorage() // Destructure savedTasks and saveTasks from useTasksLocalStorage hook
-
-
-    const [tasks, setTasks] = useState(savedTasks ?? [
-      { id: "task-1", title: "Buy a car", isDone: false },
-      { id: "task-2", title: "Buy a house", isDone: true },
-    ]) // Tasks state with initial value from local storage or default tasks
+  const [tasks, setTasks] = useState([]) // Tasks state with initial value from local storage or default tasks
 
   const [newTaskTitle, setNewTaskTitle] = useState(""); // New task title state
 
@@ -28,52 +19,59 @@ const useTasks = () => {
     const isConfirmed = confirm("Are you sure you want to delete all tasks?");
 
     if (isConfirmed) {
-      setTasks([]);
+
+    tasksAPI.deleteAll(tasks)
+    .then(() => setTasks([])) // Clear tasks state after all delete requests are completed
     }
-  }, []);
+  }, [tasks])
 
-  const deleteTask = useCallback(
-    (taskId) => {
-      setTasks(tasks.filter((task) => task.id !== taskId));
-    },
-    [tasks],
-  );
+  const deleteTask = useCallback((taskId) => {
 
-  const toggleTaskComplete = useCallback(
-    (taskId, isDone) => {
+    tasksAPI.delete(taskId)
+    .then(() => {
+      setTasks(
+        tasks.filter((task) => task.id !== taskId)
+      )
+    })
+  }, [tasks]);
+
+  const toggleTaskComplete = useCallback((taskId, isDone) => {
+    tasksAPI.toggleComplete(taskId, isDone)
+    .then(() => {
       setTasks(
         tasks.map((task) => {
           if (task.id === taskId) {
-            return { ...task, isDone };
+            return { ...task, isDone }
           }
-          return task;
-        }),
-      );
-    },
-    [tasks],
-  );
+          return task
+        })
+      )
+    })
+  }, [tasks]
+  )
 
   const addTask = useCallback((title) => {
       const newTask = {
-        id: crypto?.randomUUID() ?? Date.now().toString(),
         title,
         isDone: false,
       };
-      setTasks((prevTask) => [...prevTask, newTask]); // Add new task to tasks array
-      setNewTaskTitle(""); // Clear new task title input
-      setSearchQuery(""); // Clear search query after adding a task
-      newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
+
+        tasksAPI.add(newTask)
+        .then((addedTask) => {
+          setTasks((prevTask) => [...prevTask, addedTask]); // Add new task to tasks array
+          setNewTaskTitle(""); // Clear new task title input
+          setSearchQuery(""); // Clear search query after adding a task
+          newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
+        })
   }, []);
 
   // Effects / Hooks / useMemo (memo for values)
 
-  useEffect(() => {
-    // console.log('Save data in the storage couse tasks were changed!', tasks)
-    saveTasks(tasks); // Save tasks using saveTasks function from useTasksLocalStorage hook
-  }, [tasks]);
+
 
   useEffect(() => {
     newTaskInputRef.current.focus(); // Focus the new task input field when the component mounts
+    tasksAPI.getAll().then(setTasks)
     return () => {};
   }, []);
 
