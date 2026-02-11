@@ -7,6 +7,7 @@ const Button = (props) => {
     type = 'button',
     children,
     onClick,
+    isDisabled,
   } = props // Props destructuring
 
 
@@ -17,6 +18,7 @@ const Button = (props) => {
       className={`${className}`} 
       type={type}
       onClick={onClick}
+      disabled={isDisabled}
       >
       {children}
     </button>

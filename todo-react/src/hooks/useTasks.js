@@ -53,19 +53,17 @@ const useTasks = () => {
     [tasks],
   );
 
-  const addTask = useCallback(() => {
-    if (newTaskTitle.trim().length > 0) {
+  const addTask = useCallback((title) => {
       const newTask = {
         id: crypto?.randomUUID() ?? Date.now().toString(),
-        title: newTaskTitle,
+        title,
         isDone: false,
       };
       setTasks((prevTask) => [...prevTask, newTask]); // Add new task to tasks array
       setNewTaskTitle(""); // Clear new task title input
       setSearchQuery(""); // Clear search query after adding a task
       newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
-    }
-  }, [newTaskTitle]);
+  }, []);
 
   // Effects / Hooks / useMemo (memo for values)
 

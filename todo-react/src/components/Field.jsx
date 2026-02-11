@@ -9,6 +9,7 @@ const Field = (props) => {
     value,
     onInput,
     ref,
+    error,
   } = props // Props destructuring
 
 // Render:
@@ -22,7 +23,7 @@ const Field = (props) => {
             {label}
           </label>
           <input
-            className="field__input"
+            className={`field__input ${error ? 'is-invalid' : ''}`}
             id={id}
             placeholder=" "
             autoComplete="off"
@@ -31,6 +32,9 @@ const Field = (props) => {
             onInput={onInput}
             ref={ref}
           />
+          {error && (
+            <span className="field__error" title={error}>{error}</span>
+          )}
     </div>
   )
 }
