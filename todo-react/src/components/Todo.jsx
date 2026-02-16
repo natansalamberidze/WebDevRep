@@ -3,8 +3,9 @@ import AddTaskForm from './AddTaskForm.jsx'
 import SearchTaskForm from './SearchTaskForm.jsx'
 import TodoInfo from './TodoInfo.jsx'
 import TodoList from './TodoList.jsx'
-import Button from './Button.jsx';
-import { TasksContext } from '../context/TasksContext.jsx';
+import Button from './Button.jsx'
+import { TasksContext } from '../context/TasksContext.jsx'
+import RouterLink from "./RouterLink"
 
 
 const Todo = () => {
@@ -18,6 +19,12 @@ const Todo = () => {
       <AddTaskForm />
       <SearchTaskForm />
       <TodoInfo />
+      <RouterLink 
+        to="/about"
+        style={{ textDecoration: 'none' }}
+      >
+        Go to About Page
+      </RouterLink>
       <Button
         onClick={() =>
           firstIncompleteTaskRef.current?.scrollIntoView({

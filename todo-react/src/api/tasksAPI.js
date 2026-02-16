@@ -8,7 +8,12 @@ const tasksAPI = {
 
   getAll:() => {
     return fetch(URL) // Fetch tasks from the server
-      .then((response) => response.json())
+    .then((response) => response.json())
+  },
+
+  getById:(id) => {
+    return fetch(`${URL}/${id}`)
+    .then((response) => response.json())
   },
 
   add:(task) => {
