@@ -1,3 +1,5 @@
+import styles from './Button.module.scss'
+
 // Component:
 
 const Button = (props) => {
@@ -15,7 +17,7 @@ const Button = (props) => {
 
   return (
     <button 
-      className={`${className}`} 
+      className={`${styles.button} ${className}`} 
       type={type}
       onClick={onClick}
       disabled={isDisabled}
