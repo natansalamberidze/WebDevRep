@@ -9,6 +9,8 @@ const useTasks = () => {
 
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
 
+  const [disappearingTaskId, setDisappearingTaskId] = useState(null) // State to track the ID of the task that is currently disappearing
+  const [appearingTaskId, setAppearingTaskId] = useState(null) // State to track the ID of the task that is currently appearing
 
   const newTaskInputRef = useRef(null); // Ref for new task input field
 
@@ -29,9 +31,13 @@ const useTasks = () => {
 
     tasksAPI.delete(taskId)
     .then(() => {
-      setTasks(
-        tasks.filter((task) => task.id !== taskId)
-      )
+      setDisappearingTaskId(taskId) // Set the ID of the task that is disappearing
+        setTimeout(() => {
+          setTasks(
+          tasks.filter((task) => task.id !== taskId)
+          ) // Remove the task from tasks state after the animation duration
+          setDisappearingTaskId(null) // Reset disappearing task ID after the task is removed
+        }, 400) // Match the duration of the disappearing animation
     })
   }, [tasks]);
 
@@ -62,6 +68,10 @@ const useTasks = () => {
           setNewTaskTitle(""); // Clear new task title input
           setSearchQuery(""); // Clear search query after adding a task
           newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
+          setAppearingTaskId(addedTask.id) // Set the ID of the task that is appearing
+          setTimeout(() => {
+            setAppearingTaskId(null) // Reset appearing task ID after the animation duration
+          }, 400) // Match the duration of the appearing animation
         })
   }, []);
 
@@ -97,7 +107,9 @@ const useTasks = () => {
     setNewTaskTitle,
     newTaskInputRef,
     searchQuery, 
-    setSearchQuery
+    setSearchQuery,
+    disappearingTaskId,
+    appearingTaskId,
   }
 }
 
