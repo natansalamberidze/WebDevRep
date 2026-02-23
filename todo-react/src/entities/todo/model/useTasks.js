@@ -1,9 +1,36 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, useReducer } from 'react'
 import tasksAPI from '@/shared/api/tasks'
+
+const tasksReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_ALL': {
+      return Array.isArray(action.tasks) ? action.tasks : state
+    }
+    case 'ADD': {
+      return [...state, action.task]
+    }
+    case 'TOGGLE_COMPLETE': {
+      const { id, isDone } = action
+
+      return state.map((task) => {
+        return task.id === id ? { ...task, isDone } : task
+      })
+    }
+    case 'DELETE': {
+      return state.filter((task) => task.id !== action.id)
+    }
+    case 'DELETE_ALL': {
+      return []
+    }
+    default: {
+      return state
+    }
+  }
+}
 
 const useTasks = () => {
 
-  const [tasks, setTasks] = useState([]) // Tasks state with initial value from local storage or default tasks
+  const [tasks, dispatch] = useReducer(tasksReducer, []) // State for tasks array using useReducer with tasksReducer
 
   const [newTaskTitle, setNewTaskTitle] = useState(""); // New task title state
 
@@ -18,13 +45,14 @@ const useTasks = () => {
   // Handlers / useCallbacks(memo for functions):
 
   const deleteAllTasks = useCallback(() => {
+
     const isConfirmed = confirm("Are you sure you want to delete all tasks?");
 
-    if (isConfirmed) {
+      if (isConfirmed) {
+        tasksAPI.deleteAll(tasks)
+        .then(() => dispatch({ type: 'DELETE_ALL' }))
+      } // Dispatch delete all action to clear tasks state after API call
 
-    tasksAPI.deleteAll(tasks)
-    .then(() => setTasks([])) // Clear tasks state after all delete requests are completed
-    }
   }, [tasks])
 
   const deleteTask = useCallback((taskId) => {
@@ -33,27 +61,18 @@ const useTasks = () => {
     .then(() => {
       setDisappearingTaskId(taskId) // Set the ID of the task that is disappearing
         setTimeout(() => {
-          setTasks(
-          tasks.filter((task) => task.id !== taskId)
-          ) // Remove the task from tasks state after the animation duration
+          dispatch({ type: 'DELETE', id: taskId }) // Dispatch delete action to remove task from state after animation duration
           setDisappearingTaskId(null) // Reset disappearing task ID after the task is removed
         }, 400) // Match the duration of the disappearing animation
     })
-  }, [tasks]);
+  }, []);
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
     tasksAPI.toggleComplete(taskId, isDone)
     .then(() => {
-      setTasks(
-        tasks.map((task) => {
-          if (task.id === taskId) {
-            return { ...task, isDone }
-          }
-          return task
-        })
-      )
+      dispatch({ type: 'TOGGLE_COMPLETE', id: taskId, isDone }) // Dispatch toggle complete action to update task completion status in state after API call
     })
-  }, [tasks]
+  }, []
   )
 
   const addTask = useCallback((title) => {
@@ -64,7 +83,7 @@ const useTasks = () => {
 
         tasksAPI.add(newTask)
         .then((addedTask) => {
-          setTasks((prevTask) => [...prevTask, addedTask]); // Add new task to tasks array
+          dispatch({ type: 'ADD', task: addedTask }) // Dispatch add action to add new task to state after API call
           setNewTaskTitle(""); // Clear new task title input
           setSearchQuery(""); // Clear search query after adding a task
           newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
@@ -81,9 +100,11 @@ const useTasks = () => {
 
   useEffect(() => {
     newTaskInputRef.current.focus(); // Focus the new task input field when the component mounts
-    tasksAPI.getAll().then(setTasks)
-    return () => {};
-  }, []);
+    tasksAPI.getAll()
+      .then((serverTasks) => {
+        dispatch({ type: 'SET_ALL', tasks: serverTasks }) // Dispatch set all action to initialize tasks state with data from API
+    })
+  }, [])
 
   // useMemo (memo for values)
 
