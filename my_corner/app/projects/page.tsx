@@ -9,7 +9,7 @@ export default function ProjectsPage() {
         Projects
       </h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="bg-red-600 text-yellow-300">
         {projects.map((project) => (
           <ProjectCard
             key={project.slug}

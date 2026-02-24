@@ -1,26 +1,27 @@
 import Link from "next/link";
 import { Project } from "@/data/projects";
 
-export default function ProjectCard({ project }: { project: Project }) {
+
+export default function ProjectCard({ project, variant }: { project: Project, variant?: number }) {
+
+  const style = variant === 0 ? "bg-red-600 text-yellow-300" : "bg-green-600 text-black";
   return (
-    <Link
-      href={`/projects/${project.slug}`}
-      className="block p-6 rounded-xl bg-gray-900 hover:bg-gray-800 transition"
-    >
-      <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-
-      <p className="text-gray-400 mb-4">{project.description}</p>
-
-      <div className="flex flex-wrap gap-2">
-        {project.stack.map((tech) => (
-          <span
-            key={tech}
-            className="text-sm px-3 py-1 bg-gray-800 rounded-full"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-    </Link>
+      <Link
+        href={`/projects/${project.slug}`}
+        className={` ${style}`}
+      >
+        <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+        <p className="mb-4">{project.description}</p>
+        <div className="">
+          {project.stack.map((tech) => (
+            <span
+              key={tech}
+              className=""
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </Link>
   );
 }
