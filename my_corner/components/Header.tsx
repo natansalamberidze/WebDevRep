@@ -9,8 +9,6 @@ export default function Header() {
         </Link>
 
         <nav className="flex gap-6 text-sm text-gray-300">
-          <Link href="/projects">Projects</Link>
-          <Link href="/contact">Contacts</Link>
         </nav>
       </div>
     </header>

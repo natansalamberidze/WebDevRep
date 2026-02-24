@@ -41,7 +41,7 @@ export default function Home() {
 
 
       <section className="">
-        <h2 className="text-2xl font-semibold mb-8">ALL PROJECTS</h2>
+        <h2 className="">ALL PROJECTS</h2>
 
         <div className="">
           {projects.slice(0, 2).map((project, index) => (

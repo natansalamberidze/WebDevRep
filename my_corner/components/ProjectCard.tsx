@@ -8,7 +8,7 @@ export default function ProjectCard({ project, variant }: { project: Project, va
   return (
       <Link
         href={`/projects/${project.slug}`}
-        className={` ${style}`}
+        className={style}
       >
         <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
         <p className="mb-4">{project.description}</p>
