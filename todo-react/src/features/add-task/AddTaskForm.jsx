@@ -8,10 +8,10 @@ import { TasksContext } from '@/entities/todo';
 const AddTaskForm = (props) => {
   const { styles } = props
 
+  const [newTaskTitle, setNewTaskTitle] = useState(""); // New task title state
+
   const {
     addTask,
-    newTaskTitle,
-    setNewTaskTitle,
     newTaskInputRef, 
   } = useContext(TasksContext) // Props destructuring
 
@@ -26,8 +26,14 @@ const AddTaskForm = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault() // This will override the standard browser behavior and the page will not reload / The form won't be sended.
+
     if (!isNewTaskTitleEmpty) {
-      addTask(clearNewTaskTitle) // Call the addTask function with the new task title as an argument.
+      addTask(
+        clearNewTaskTitle,
+        () => {
+          setNewTaskTitle(""); // Clear new task title input
+        }
+      ) // Call the addTask function with the new task title as an argument.
     }
   }
 

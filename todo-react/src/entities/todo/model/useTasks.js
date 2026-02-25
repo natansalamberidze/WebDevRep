@@ -32,8 +32,6 @@ const useTasks = () => {
 
   const [tasks, dispatch] = useReducer(tasksReducer, []) // State for tasks array using useReducer with tasksReducer
 
-  const [newTaskTitle, setNewTaskTitle] = useState(""); // New task title state
-
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
 
   const [disappearingTaskId, setDisappearingTaskId] = useState(null) // State to track the ID of the task that is currently disappearing
@@ -75,7 +73,7 @@ const useTasks = () => {
   }, []
   )
 
-  const addTask = useCallback((title) => {
+  const addTask = useCallback((title, callbackAfterAdding) => {
       const newTask = {
         title,
         isDone: false,
@@ -84,7 +82,7 @@ const useTasks = () => {
         tasksAPI.add(newTask)
         .then((addedTask) => {
           dispatch({ type: 'ADD', task: addedTask }) // Dispatch add action to add new task to state after API call
-          setNewTaskTitle(""); // Clear new task title input
+          callbackAfterAdding(); // Call the callback function to clear the new task title input
           setSearchQuery(""); // Clear search query after adding a task
           newTaskInputRef.current.focus(); // Focus the new task input field after adding a task
           setAppearingTaskId(addedTask.id) // Set the ID of the task that is appearing
@@ -124,8 +122,6 @@ const useTasks = () => {
     deleteAllTasks,
     toggleTaskComplete,
     addTask,
-    newTaskTitle,
-    setNewTaskTitle,
     newTaskInputRef,
     searchQuery, 
     setSearchQuery,
