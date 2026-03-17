@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Container from "@/components/Container";
+import Container from "@/app/Container";
 import { projects } from "@/data/projects";
 
 type Props = {
@@ -25,18 +25,18 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <Container>
-      <h1 className="text-3xl font-bold mb-4">{project.title}</h1>
+      <h1 className="mb-4 text-3xl font-bold">{project.title}</h1>
 
-      <p className="text-gray-400 mb-8">{project.description}</p>
+      <p className="mb-8 text-gray-400">{project.description}</p>
 
       <section>
-        <h2 className="text-xl font-semibold mb-3">
+        <h2 className="mb-3 text-xl font-semibold">
           Stack of technologies used.
         </h2>
 
-        <ul className="list-disc list-inside text-gray-300">
-          {project.stack.map((tech) => (
-            <li key={tech}>{tech}</li>
+        <ul className="list-inside list-disc text-gray-300">
+          {project.stack.map((project) => (
+            <li key={project.id}></li>
           ))}
         </ul>
       </section>

@@ -1,19 +1,17 @@
-import Container from "@/components/Container";
-import ProjectCard from "@/components/ProjectCard";
+import Container from "@/app/Container";
+import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import { projects } from "@/data/projects";
 
 export default function ProjectsPage() {
   return (
     <Container>
-      <h1 className="text-3xl font-bold mb-10">
-        Projects
-      </h1>
+      <h1 className="text-3xl font-bold">Projects</h1>
 
-      <div className="bg-red-600 text-yellow-300">
+      <div className="py-3 grid gap-2">
         {projects.map((project) => (
-          <ProjectCard
-            key={project.slug}
-            project={project}
+          <ProjectCard 
+            key={project.slug} 
+            project={project} 
           />
         ))}
       </div>

@@ -1,8 +1,10 @@
 import Link from "next/link";
-import Container from "@/components/Container";
-import ProjectCard from "@/components/ProjectCard";
-import { projects } from "@/data/projects";
 import type { Metadata } from "next";
+import Image from "next/image";
+import Header from "@/components/Layout/Header";
+import Container from "@/app/Container";
+import SkillSection from "@/components/SkillsSection/SkillsSection";
+import ProjectCardSection from "@/components/ProjectCard/ProjectCardSection";
 
 export const metadata: Metadata = {
   title: "Nathan Shalamberidze — Frontend Developer",
@@ -13,46 +15,38 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <Container>
-      <div className="py-80 text-center">
-        <h1 className="text-4xl font-bold mb-4">
-          Hello, I'm Nathan Shalamberidze 👋
-        </h1>
-
-        <p className="text-red-500 max-w-xl">
-          Frontend developer. I create fast, intuitive, and scalable interfaces.
-        </p>
-
-        <div className="mt-8 inline-flex gap-4">
-          <Link
-            href="/projects"
-            className="px-6 py-3"
-          >
+      <Header />
+      <section className="justify-items-center">
+        <h1 className="pointed ">Hello, I'm Nathan Shalamberidze 👋</h1>
+        <p className="pointed">Frontend developer</p>
+        <div className="p-2">
+          <Link href="/projects" className="px-2 py-1 pointed">
             Projects
           </Link>
-
-          <Link
-            href="/contact"
-            className="px-6 py-3"
-          >
+          <Link href="/contact" className="px-2 py-1 pointed">
             Contact
           </Link>
         </div>
-      </div>
-
-
-      <section className="">
-        <h2 className="">ALL PROJECTS</h2>
-
-        <div className="">
-          {projects.slice(0, 2).map((project, index) => (
-            <ProjectCard 
-              key={project.slug} 
-              project={project}
-              variant={index}
-            />
-          ))}
-        </div>
       </section>
+
+      <section className="relative bg-text-primary rounded-full w-9 h-9 rounded-bl-4xl">
+        <Image
+          src="/shared/images/alien.svg"
+          alt="alien"
+          className="absolute pt-3"
+          width={100}
+          height={100}
+        />
+        <h2 className="relative left-1 pt-6 text-4xl font-bold text-cyan-500">
+          <span className="text-cyan-300 [-webkit-text-stroke-color:rgb(12,1,1)] [-webkit-text-stroke-width:2px]">
+            PERSONAL
+          </span>
+          PROJECTS
+        </h2>
+      </section>
+
+      <ProjectCardSection />
+      <SkillSection />
     </Container>
   );
 }
