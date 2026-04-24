@@ -57,7 +57,7 @@ const TodoItem = (props) => {
         {title}
       </label>
       <RouterLink 
-        to={`/tasks/${id}`}
+        to={`tasks/${id}`}
         // aria-labelledby="Task detail page"
         style={{ textDecoration: 'none' }}
       >
